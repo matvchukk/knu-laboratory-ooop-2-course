@@ -684,3 +684,69 @@ void Operations::Update(std::string table_name, std::vector<std::string> args) {
         throw std::logic_error("Unknown table!\n DOCTOR/PATIENT/CABINET/DEPARTMENT/SERVICE/CARD\n");
     }
 }
+
+void Operations::Delete(std::string table_name, std::vector<std::string> args) {
+    int ID;
+    try {
+        ID = std::stoi(args[0]);
+    }
+    catch (...) {
+        throw std::logic_error("Error: Invalid ID");
+    }
+    if (table_name == "DOCTOR") {
+        try {
+            m_db->GetDoctorDb()->Delete(ID);
+        }
+        catch (...) {
+            throw std::runtime_error("Error: Can`t delete");
+        }
+    }
+    else if (table_name == "PATIENT") {
+        try {
+            if (m_db->GetPatientDb()->id_exists(ID)) {
+                auto el = m_db->GetPatientDb()->Get(ID);
+                std::cout << "Medical card: ";
+                m_db->GetCardDb()->Delete(std::stoi(el->Get_card()));
+            }
+            m_db->GetPatientDb()->Delete(ID);
+        }
+        catch (...) {
+            throw std::runtime_error("Error: Can`t delete");
+        }
+    }
+    else if (table_name == "CABINET") {
+        try {
+            m_db->GetCabinetDb()->Delete(ID);
+        }
+        catch (...) {
+            throw std::runtime_error("Error: Can`t delete");
+        }
+    }
+    else if (table_name == "DEPARTMENT") {
+        try {
+            m_db->GetDepartmentDb()->Delete(ID);
+        }
+        catch (...) {
+            throw std::runtime_error("Error: Can`t delete");
+        }
+    }
+    else if (table_name == "CARD") {
+        try {
+            m_db->GetCardDb()->Delete(ID);
+        }
+        catch (...) {
+            throw std::runtime_error("Error: Can`t delete");
+        }
+    }
+    else if (table_name == "SERVICE") {
+        try {
+            m_db->GetServiceDb()->Delete(ID);
+        }
+        catch (...) {
+            throw std::runtime_error("Error: Can`t delete");
+        }
+    }
+    else {
+        std::cout << "Error: Wrong table\n";
+    }
+}
