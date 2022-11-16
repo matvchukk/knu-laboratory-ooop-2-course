@@ -37,11 +37,11 @@ public slots:
     void clear();
 
 protected:
-    void mousePressEvent(QMouseEvent *events) override;
-    void mouseMoveEvent(QMouseEvent *events) override;
-    void mouseReleaseEvent(QMouseEvent *events) override;
-    void paintEvent(QPaintEvent *events) override;
-    void resizeEvent(QResizeEvent *events) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     void drawLineTo(const QPoint &end);

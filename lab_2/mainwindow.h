@@ -39,7 +39,7 @@ private:
     QAction *QtHelpActions;
 
 protected:
-    void closeEvent(QCloseEvent *events) override;
+    void closeEvent(QCloseEvent *event) override;
 
 private slots:
     void help();
