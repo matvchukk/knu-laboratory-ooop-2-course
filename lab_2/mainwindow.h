@@ -21,10 +21,10 @@ public:
 private:
     Ui::MainWindow *ui;
     DrawingArea *area;
-    QMenu *menu;
-    QMenu *format;
-    QMenu *file;
-    QMenu *userHelp;
+    QMenu *menuSave;
+    QMenu *menuFormat;
+    QMenu *menuFile;
+    QMenu *menuUserHelp;
     void doMenu();
     void doAction();
     bool modificated();
