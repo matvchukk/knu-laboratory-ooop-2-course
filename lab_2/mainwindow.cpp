@@ -66,6 +66,44 @@ void MainWindow::fileSave()
     saveInFormat(fileFormat);
 }
 
+void MainWindow::doAction()
+{
+    userActions = new QAction(tr("&Open..."), this);
+    userActions->setShortcuts(QKeySequence::Open);
+    connect(userActions, SIGNAL(triggered()), this, SLOT(open()));
+
+    foreach (QByteArray format, QImageWriter::supportedImageFormats()) {
+            QString text = tr("%1...").arg(QString(format).toUpper());
+            QAction *action = new QAction(text, this);
+            action->setData(format);
+            connect(action, SIGNAL(triggered()), this, SLOT(save()));
+            formatActions.append(action);
+        }
+
+    printActions = new QAction(tr("&Print..."), this);
+    connect(printActions, SIGNAL(triggered()), area, SLOT(print()));
+
+    colorActions = new QAction(tr("&Pen Color..."), this);
+    connect(colorActions, SIGNAL(triggered()), this, SLOT(penColor()));
+
+    widthActions = new QAction(tr("Pen &Width..."), this);
+    connect(widthActions, SIGNAL(triggered()), this, SLOT(penWidth()));
+
+    clearActions = new QAction(tr("&Clear Screen"), this);
+    clearActions->setShortcut(tr("Ctrl+L"));
+    connect(clearActions, SIGNAL(triggered()), area, SLOT(clearImage()));
+
+    exitActions = new QAction(tr("E&xit"), this);
+    exitActions->setShortcuts(QKeySequence::Quit);
+    connect(exitActions, SIGNAL(triggered()), this, SLOT(close()));
+
+    helpActions = new QAction(tr("&Help"), this);
+    connect(helpActions, SIGNAL(triggered()), this, SLOT(about()));
+
+    QtHelpActions = new QAction(tr("About &Qt"), this);
+    connect(QtHelpActions, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
