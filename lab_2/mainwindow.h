@@ -35,6 +35,7 @@ private:
     QAction *widthActions;
     QAction *printActions;
     QAction *clearActions;
+    QAction *exitActions;
     QAction *helpActions;
     QAction *QtHelpActions;
 
