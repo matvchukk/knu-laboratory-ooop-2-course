@@ -79,7 +79,7 @@ void MainWindow::doAction()
             action->setData(format);
             connect(action, SIGNAL(triggered()), this, SLOT(save()));
             formatActions.append(action);
-        }
+    }
 
     printActions = new QAction(tr("&Print..."), this);
     connect(printActions, SIGNAL(triggered()), area, SLOT(print()));
@@ -131,6 +131,36 @@ void MainWindow::doMenu()
      menuBar()->addMenu(menuFile);
      menuBar()->addMenu(menuOption);
      menuBar()->addMenu(menuUserHelp);
+}
+
+bool MainWindow::modificated()
+{
+    if (area->pictureModified())
+    {
+       QMessageBox::StandardButton askAbtSaving;
+       askAbtSaving = QMessageBox::warning(this, tr("Scribble"), tr("Do you want to save your changes?"), QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+
+       if (askAbtSaving == QMessageBox::Save)
+       {
+            return saveInFormat("png");
+       }
+       else if (askAbtSaving == QMessageBox::Cancel)
+       {
+            return false;
+       }
+    }
+    return true;
+}
+
+bool MainWindow::saveInFormat(const QByteArray &fileFormat)
+{
+    QString path = QDir::currentPath() + "/untitled." + fileFormat;
+    QString file = QFileDialog::getSaveFileName(this, tr("Save As"), path, tr("%1 Files (*.%2);;All Files (*)").arg(QString::fromLatin1(fileFormat.toUpper())).arg(QString::fromLatin1(fileFormat)));
+
+    if (file.isEmpty()) return false;
+    else {
+        return area->saveFile(file, fileFormat.constData());
+    }
 }
 
 MainWindow::~MainWindow()
