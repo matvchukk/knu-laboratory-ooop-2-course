@@ -72,7 +72,8 @@ void MainWindow::doAction()
     userActions->setShortcuts(QKeySequence::Open);
     connect(userActions, SIGNAL(triggered()), this, SLOT(open()));
 
-    foreach (QByteArray format, QImageWriter::supportedImageFormats()) {
+    foreach (QByteArray format, QImageWriter::supportedImageFormats())
+    {
             QString text = tr("%1...").arg(QString(format).toUpper());
             QAction *action = new QAction(text, this);
             action->setData(format);
@@ -102,6 +103,34 @@ void MainWindow::doAction()
 
     QtHelpActions = new QAction(tr("About &Qt"), this);
     connect(QtHelpActions, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+}
+
+void MainWindow::doMenu()
+{
+     menuSave = new QMenu(tr("&Save As"), this);
+     foreach (QAction *action, formatActions)
+     menuSave->addAction(action);
+
+     menuFile = new QMenu(tr("&File"), this);
+     menuFile->addMenu(menuSave);
+     menuFile->addAction(userActions);
+     menuFile->addAction(printActions);
+     menuFile->addAction(exitActions);
+     menuFile->addSeparator();
+
+     menuOption = new QMenu(tr("&Options"), this);
+     menuOption->addAction(colorActions);
+     menuOption->addAction(widthActions);
+     menuOption->addAction(clearActions);
+     menuOption->addSeparator();
+
+     menuUserHelp = new QMenu(tr("&Help"), this);
+     menuUserHelp->addAction(helpActions);
+     menuUserHelp->addAction(QtHelpActions);
+
+     menuBar()->addMenu(menuFile);
+     menuBar()->addMenu(menuOption);
+     menuBar()->addMenu(menuUserHelp);
 }
 
 MainWindow::~MainWindow()

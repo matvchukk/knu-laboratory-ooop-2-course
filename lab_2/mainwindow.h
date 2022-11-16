@@ -22,8 +22,8 @@ private:
     Ui::MainWindow *ui;
     DrawingArea *area;
     QMenu *menuSave;
-    QMenu *menuFormat;
     QMenu *menuFile;
+    QMenu *menuOption;
     QMenu *menuUserHelp;
     void doMenu();
     void doAction();
