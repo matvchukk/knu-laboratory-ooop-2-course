@@ -5,22 +5,21 @@
 #include "Map.h"
 
 
-void mapPrinting(const std::array<std::array<Square, HEIGHT>, WIDTH>& rendered, sf::RenderWindow& i_window)
+void mapPrinting(const std::array<std::array<Square, HEIGHT>, WIDTH>& rendered, sf::RenderWindow& myWindow)
 {
-	sf::RectangleShape cell_shape(sf::Vector2f(SQUARE, SQUARE));
+	sf::RectangleShape mapSquare(sf::Vector2f(SQUARE, SQUARE));
 	for (char i = 0; i < WIDTH; i++)
 	{
 		for (char j = 0; j < HEIGHT; j++)
 		{
-			cell_shape.setPosition(SQUARE * i, SQUARE * j);
+			mapSquare.setPosition(SQUARE * i, SQUARE * j);
 			switch (rendered[i][j])
 			{
 			case Square::Wall:
 			{
-				cell_shape.setFillColor(sf::Color(93, 136, 255));
+				mapSquare.setFillColor(sf::Color(93, 136, 255));
 
-				i_window.draw(cell_shape);
-
+				myWindow.draw(mapSquare);
 				break;
 			}
 			}
