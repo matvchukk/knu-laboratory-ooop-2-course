@@ -75,7 +75,6 @@ void User::motionTimer(unsigned short motionTimer)
 void User::setIsDead(bool isDead)
 {
 	dead = isDead;
-
 	if (isDead)
 	{
 		motionT = 0;

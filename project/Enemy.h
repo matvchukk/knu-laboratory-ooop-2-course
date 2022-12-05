@@ -34,7 +34,6 @@ public:
 	void update(unsigned char level, std::array<std::array<Square, HEIGHT>, WIDTH>& map, User& user, Enemy& enemyCurr);
 };
 
-
 class EnemyTools
 {
 	std::array<Enemy, 4> ghosts;
