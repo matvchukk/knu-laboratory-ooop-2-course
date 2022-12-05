@@ -5,7 +5,6 @@
 #include "Map.h"
 #include "User.h"
 #include "Enemy.h"
-//#include "EnemyTools.h"
 #include "Render.h"
 
 
@@ -65,18 +64,7 @@ int main()
 		{
 			time -= LIMIT;
 
-			while (window.pollEvent(event))
-			{
-				switch (event.type)
-				{
-				case sf::Event::Closed:
-				{
-					window.close();
-				}
-				}
-			}
-
-			if (!win && !newUser.getIsDead())
+			if ((!win) && (!newUser.getIsDead()))
 			{
 				win = 1;
 				newUser.update(level, map);
@@ -122,6 +110,11 @@ int main()
 				newUser.resetting();
 			}
 
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed)	window.close();
+			}
+
 			if (LIMIT > time)
 			{
 				window.clear();
@@ -129,7 +122,7 @@ int main()
 				if (!win && !newUser.getIsDead())
 				{
 					print(map, window);
-					newEnemies.draw(GHOST_FLASH_START >= newUser.scareTimer(), window);
+					newEnemies.draw(FLICKER >= newUser.scareTimer(), window);
 				}
 
 				newUser.draw(win, window);

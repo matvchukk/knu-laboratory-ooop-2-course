@@ -15,7 +15,7 @@ class Enemy
 	unsigned char fearT;
 	unsigned short motionT;
 
-	unsigned char id;	
+	unsigned char id;
 
 public:
 	Enemy(unsigned char id);

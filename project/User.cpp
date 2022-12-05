@@ -15,6 +15,11 @@ User::User() :
 	pos({ 0, 0 })
 {}
 
+Position User::getPosition()
+{
+	return pos;
+}
+
 bool User::getIsDead()
 {
 	return dead;
@@ -30,7 +35,7 @@ unsigned short User::scareTimer()
 	return scareT;
 }
 
-void User::draw(bool win, sf::RenderWindow& i_window)
+void User::draw(bool win, sf::RenderWindow& window)
 {
 	unsigned char frame = static_cast<unsigned char>(floor(motionT / static_cast<float>(SPEED)));
 
@@ -38,7 +43,7 @@ void User::draw(bool win, sf::RenderWindow& i_window)
 	pacman.setFillColor(sf::Color(245, 245, 0));
 	pacman.setPosition(pos.x, pos.y);
 
-	i_window.draw(pacman);
+	window.draw(pacman);
 
 	if (dead || win)
 	{
@@ -49,7 +54,7 @@ void User::draw(bool win, sf::RenderWindow& i_window)
 	}
 	else
 	{
-		i_window.draw(pacman);
+		window.draw(pacman);
 		motionT = (1 + motionT) % (FRAMES * SPEED);
 	}
 }
@@ -93,7 +98,7 @@ void User::update(size_t level, std::array<std::array<Square, HEIGHT>, WIDTH>& m
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		if (!vecCollision[0]) 
+		if (!vecCollision[0])
 		{
 			motion = 0;
 		}
@@ -142,7 +147,7 @@ void User::update(size_t level, std::array<std::array<Square, HEIGHT>, WIDTH>& m
 
 	if (collision(pos.x, pos.y, map, 1, 0))
 	{
-		scareT = static_cast<unsigned short>(ENERGIZER_DURATION / pow(3, level));
+		scareT = static_cast<unsigned short>(ENERGIZER / pow(3, level));
 	}
 	else
 	{
@@ -150,7 +155,4 @@ void User::update(size_t level, std::array<std::array<Square, HEIGHT>, WIDTH>& m
 	}
 }
 
-Position User::getPosition()
-{
-	return pos;
-}
+

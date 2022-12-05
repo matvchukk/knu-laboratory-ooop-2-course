@@ -16,11 +16,11 @@ std::array<std::array<Square, HEIGHT>, WIDTH> mapRendering(User& user, std::arra
 		{
 			result[j][i] = Square::Empty;
 
-			if (outline[i][j] == '#')	
+			if (outline[i][j] == '#')
 				result[j][i] = Square::Wall;
-			else if (outline[i][j] == '=')	
+			else if (outline[i][j] == '=')
 				result[j][i] = Square::Exit;
-			else if (outline[i][j] == '.')	
+			else if (outline[i][j] == '.')
 				result[j][i] = Square::Score;
 			else if (outline[i][j] == 'P')
 				user.setPosition(SQUARE * j, SQUARE * i);

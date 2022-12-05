@@ -10,26 +10,25 @@ constexpr unsigned char SPEED = 4;
 
 constexpr unsigned char ENEMY_SPEED = 1.5;
 constexpr unsigned char USER_SPEED = 2;
+constexpr unsigned short ENERGIZER = 512;
+
+constexpr unsigned char SCARED = 4;
+constexpr unsigned char VERY_SCARED = 3; // :0
 
 
+constexpr unsigned short CHASE = 1024;
 constexpr unsigned char ENEMY1_CHASE = 2;
 constexpr unsigned char ENEMY2_CHASE = 1;
 constexpr unsigned char ENEMY3_CHASE = 4;
-
-
-
-constexpr unsigned char SCARED = 4;
-constexpr unsigned char VERY_SCARED = 3;
-
+constexpr unsigned short DISSIPATION = 512;
 
 constexpr unsigned char DEFEAT = 15;
 constexpr unsigned char SCREEN_RESIZE = 2;
 
-constexpr unsigned short CHASE_DURATION = 1024;
-constexpr unsigned short ENERGIZER_DURATION = 512;
-constexpr unsigned short GHOST_FLASH_START = 64;
-constexpr unsigned short LONG_SCATTER_DURATION = 512;
-constexpr unsigned short SHORT_SCATTER_DURATION = 256;
+
+constexpr unsigned short FLICKER = 64;
+
+constexpr unsigned short DISSIPATION_LITTLE = 256;
 
 struct Position
 {

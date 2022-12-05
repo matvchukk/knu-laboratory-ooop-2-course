@@ -12,7 +12,7 @@ void print(const std::array<std::array<Square, HEIGHT>, WIDTH>& outline, sf::Ren
 	sf::RectangleShape mapSquare(sf::Vector2f(SQUARE, SQUARE));
 	sf::CircleShape score;
 	sf::CircleShape speed;
-	
+
 	for (size_t i = 0; i < WIDTH; i++)
 	{
 		for (size_t j = 0; j < HEIGHT; j++)
@@ -44,8 +44,8 @@ void print(const std::array<std::array<Square, HEIGHT>, WIDTH>& outline, sf::Ren
 
 bool collision(int x, int y, std::array<std::array<Square, HEIGHT>, WIDTH>& map, bool score, bool exit)
 {
-	float xCurr = x/static_cast<float>(SQUARE);
-	float yCurr = y/static_cast<float>(SQUARE);
+	float xCurr = x / static_cast<float>(SQUARE);
+	float yCurr = y / static_cast<float>(SQUARE);
 
 	bool result = 0;
 	for (size_t i = 0; i < 4; i++)
@@ -76,7 +76,7 @@ bool collision(int x, int y, std::array<std::array<Square, HEIGHT>, WIDTH>& map,
 
 		if (HEIGHT > y && WIDTH > x && x >= 0 && y >= 0)
 		{
-			if (!score) 
+			if (!score)
 			{
 				if (Square::Wall == map[x][y])
 				{
@@ -87,7 +87,7 @@ bool collision(int x, int y, std::array<std::array<Square, HEIGHT>, WIDTH>& map,
 					result = 1;
 				}
 			}
-			else 
+			else
 			{
 				if (Square::Energizer == map[x][y])
 				{

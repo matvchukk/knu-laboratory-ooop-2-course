@@ -7,6 +7,95 @@
 #include "Enemy.h"
 #include "Map.h"
 
+
+void Enemy::setPosition(int x, int y)
+{
+	pos.x = x;
+	pos.y = y;
+}
+
+void Enemy::setRegime()
+{
+	regime = 1 - regime;
+}
+
+
+
+void Enemy::setPurpose(unsigned char user, const Position& enemyPosCurr, const Position& enemyPos)
+{
+	if (isExit)
+	{
+		if (pos == enemyPurpose)
+		{
+			if (exit == enemyPurpose)
+			{
+				isExit = 0;
+			}
+			else if (home == enemyPurpose)
+			{
+				fearMeasure = 0;
+				enemyPurpose = exit;
+			}
+		}
+	}
+	else
+	{
+		if (!regime)
+		{
+			if (id == 0)		enemyPurpose = { SQUARE * (WIDTH - 1), 0 };
+			else if (id == 1)	enemyPurpose = { 0, 0 };
+			else if (id == 2)	enemyPurpose = { SQUARE * (WIDTH - 1), SQUARE * (HEIGHT - 1) };
+			else if (id == 3)	enemyPurpose = { 0, SQUARE * (HEIGHT - 1) };
+
+		}
+		else
+		{
+			if (id == 0)
+				enemyPurpose = enemyPos;
+			else if (id == 1)
+			{
+				enemyPurpose = enemyPos;
+
+				if (user == 0)	enemyPurpose.x += SQUARE * ENEMY1_CHASE;
+				else if (user == 1)	enemyPurpose.y -= SQUARE * ENEMY1_CHASE;
+				else if (user == 2)	enemyPurpose.x -= SQUARE * ENEMY1_CHASE;
+				else if (user == 3)	enemyPurpose.y += SQUARE * ENEMY1_CHASE;
+
+			}
+			else if (id == 2)
+			{
+				enemyPurpose = enemyPos;
+
+				if (user == 0)	enemyPurpose.x += SQUARE * ENEMY2_CHASE;
+				else if (user == 1)	enemyPurpose.y -= SQUARE * ENEMY2_CHASE;
+				else if (user == 2)	enemyPurpose.x -= SQUARE * ENEMY2_CHASE;
+				else if (user == 3)	enemyPurpose.y += SQUARE * ENEMY2_CHASE;
+
+				enemyPurpose.x += enemyPurpose.x - enemyPosCurr.x;
+				enemyPurpose.y += enemyPurpose.y - enemyPosCurr.y;
+
+			}
+			else if (id == 3)
+			{
+				if (SQUARE * ENEMY3_CHASE <= sqrt(pow(pos.x - enemyPos.x, 2) + pow(pos.y - enemyPos.y, 2)))
+				{
+					enemyPurpose = enemyPos;
+				}
+				else
+				{
+					enemyPurpose = { 0, SQUARE * (HEIGHT - 1) };
+				}
+			}
+		}
+	}
+}
+
+Position Enemy::getPosition()
+{
+	return pos;
+}
+
+
 Enemy::Enemy(unsigned char id) :
 	id(id)
 {}
@@ -31,7 +120,7 @@ void Enemy::update(unsigned char level, std::array<std::array<Square, HEIGHT>, W
 
 	std::array<bool, 4> vecCollision{};
 
-	if (!fearMeasure && user.scareTimer() == ENERGIZER_DURATION / pow(2, level))
+	if (!fearMeasure && user.scareTimer() == ENERGIZER / pow(2, level))
 	{
 		fearT = VERY_SCARED;
 		fearMeasure = 1;
@@ -153,11 +242,11 @@ void Enemy::update(unsigned char level, std::array<std::array<Square, HEIGHT>, W
 
 	if (userCollision(user.getPosition()))
 	{
-		if (!fearMeasure) 
+		if (!fearMeasure)
 		{
 			user.setIsDead(1);
 		}
-		else 
+		else
 		{
 			enemyPurpose = home;
 			isExit = 1;
@@ -187,11 +276,11 @@ void Enemy::draw(bool flash, sf::RenderWindow& i_window)
 
 	sf::CircleShape enemyCircle(SQUARE / 2);
 	sf::RectangleShape enemySquare(sf::Vector2f(2 * enemyCircle.getRadius(), enemyCircle.getRadius()));
-	
+
 
 	enemyCircle.setPosition(pos.x, pos.y);
-	enemySquare.setPosition(pos.x, pos.y + SQUARE/2);	
-	
+	enemySquare.setPosition(pos.x, pos.y + SQUARE / 2);
+
 	if (!fearMeasure)
 	{
 		switch (id)
@@ -284,96 +373,9 @@ void Enemy::resetting(const Position& myHome, const Position& door)
 	enemyPurpose = door;
 }
 
-void Enemy::setPosition(int x, int y)
-{
-	pos.x = x;
-	pos.y = y;
-}
-
-void Enemy::setRegime()
-{
-	regime = 1 - regime;
-}
-
-
-
-void Enemy::setPurpose(unsigned char user, const Position& enemyPosCurr, const Position& enemyPos)
-{
-	if (isExit) 
-	{
-		if (pos == enemyPurpose)
-		{
-			if (exit == enemyPurpose) 
-			{
-				isExit = 0; 
-			}
-			else if (home == enemyPurpose) 
-			{
-				fearMeasure = 0; 
-				enemyPurpose = exit; 
-			}
-		}
-	}
-	else
-	{
-		if (!regime) 
-		{
-			if (id == 0)		enemyPurpose = { SQUARE * (WIDTH - 1), 0 };
-			else if (id == 1)	enemyPurpose = { 0, 0 };
-			else if (id == 2)	enemyPurpose = { SQUARE * (WIDTH - 1), SQUARE * (HEIGHT - 1) };
-			else if (id == 3)	enemyPurpose = { 0, SQUARE * (HEIGHT - 1) };
-			
-		}
-		else 
-		{
-			if (id == 0)		
-				enemyPurpose = enemyPos;
-			else if (id == 1)
-			{
-				enemyPurpose = enemyPos;
-
-				if (user == 0)	enemyPurpose.x += SQUARE * ENEMY1_CHASE;
-				else if (user == 1)	enemyPurpose.y -= SQUARE * ENEMY1_CHASE;
-				else if (user == 2)	enemyPurpose.x -= SQUARE * ENEMY1_CHASE;
-				else if (user == 3)	enemyPurpose.y += SQUARE * ENEMY1_CHASE;
-
-			}
-			else if (id == 2)	
-			{
-				enemyPurpose = enemyPos;
-
-				if (user == 0)	enemyPurpose.x += SQUARE * ENEMY2_CHASE;
-				else if (user == 1)	enemyPurpose.y -= SQUARE * ENEMY2_CHASE;
-				else if (user == 2)	enemyPurpose.x -= SQUARE * ENEMY2_CHASE;
-				else if (user == 3)	enemyPurpose.y += SQUARE * ENEMY2_CHASE;
-
-				enemyPurpose.x += enemyPurpose.x - enemyPosCurr.x;
-				enemyPurpose.y += enemyPurpose.y - enemyPosCurr.y;
-
-			}
-			else if (id == 3)
-			{
-				if (SQUARE * ENEMY3_CHASE <= sqrt(pow(pos.x - enemyPos.x, 2) + pow(pos.y - enemyPos.y, 2)))
-				{
-					enemyPurpose = enemyPos;
-				}
-				else
-				{
-					enemyPurpose = { 0, SQUARE * (HEIGHT - 1) };
-				}
-			}
-		}
-	}
-}
-
-Position Enemy::getPosition()
-{
-	return pos;
-}
-
 EnemyTools::EnemyTools() :
 	wave(0),
-	waveT(LONG_SCATTER_DURATION),
+	waveT(DISSIPATION),
 	ghosts({ Enemy(0), Enemy(1), Enemy(2), Enemy(3) })
 {
 
@@ -390,7 +392,7 @@ void EnemyTools::draw(bool flash, sf::RenderWindow& window)
 void EnemyTools::resetting(size_t level, const std::array<Position, 4>& enemy)
 {
 	wave = 0;
-	waveT = static_cast<unsigned short>(LONG_SCATTER_DURATION / pow(2, level));
+	waveT = static_cast<unsigned short>(DISSIPATION / pow(2, level));
 
 	for (size_t i = 0; i < 4; i++)
 	{
@@ -420,15 +422,15 @@ void EnemyTools::update(size_t level, std::array<std::array<Square, HEIGHT>, WID
 
 			if (wave % 2 == 1)
 			{
-				waveT = CHASE_DURATION;
+				waveT = CHASE;
 			}
 			else if (wave == 2)
 			{
-				waveT = static_cast<unsigned short>(LONG_SCATTER_DURATION / pow(2, level));
+				waveT = static_cast<unsigned short>(DISSIPATION / pow(2, level));
 			}
 			else
 			{
-				waveT = static_cast<unsigned short>(SHORT_SCATTER_DURATION / pow(2, level));
+				waveT = static_cast<unsigned short>(DISSIPATION_LITTLE / pow(2, level));
 			}
 		}
 		else

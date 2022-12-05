@@ -23,8 +23,8 @@ public:
 
 	unsigned short scareTimer();
 	void motionTimer(unsigned short motionT);
-	
-	void resetting();	
+
+	void resetting();
 	void update(size_t level, std::array<std::array<Square, HEIGHT>, WIDTH>& map);
 	void draw(bool win, sf::RenderWindow& window);
 };
