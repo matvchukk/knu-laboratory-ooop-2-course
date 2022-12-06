@@ -13,7 +13,7 @@ bool Interface::GetCommand() {
         std::cout << "Choose a table:\n1 - SERVICE\n2 - PATIENT\n3 - DOCTOR\n4 - DEPARTMENT\n5 - CABINET\n6 - CARD" << std::endl;
         std::cin >> tabll;
     }
-
+   
     return DoCommand();
 }
 

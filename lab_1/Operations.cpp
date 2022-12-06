@@ -129,7 +129,7 @@ void Operations::Get_m(std::string table_name, std::string id) {
 void Operations::GetAll(std::string table_name) {
     for (size_t i = 1; i < 10; i++) {
         if (table_name == "DOCTOR") {
-            if (m_db->GetDoctorDb()->id_exists(i)) {
+            if (m_db->GetDoctorDb()->id_exists(i)){
                 auto el = m_db->GetDoctorDb()->GetForPrinting(i);
                 std::cout << "DOCTOR" << el->Get_ID() << "---\n" << "First name:\t" << el->Get_first_name() << "\nLast name:\t" << el->Get_last_name() << "\nFather name:\t" << el->Get_father_name() << "\nSpecialization:\t" << el->Get_specialization() << "\nCategory:\t" << el->Get_category() << "\nExperience:\t" << el->Get_experience() << std::endl;
             }

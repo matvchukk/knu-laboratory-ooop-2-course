@@ -2,22 +2,39 @@
 //
 
 #include <iostream>
-
 #include "Data.h"
 #include "Storage.h"
 #include "Operations.h"
 #include "Interface.h"
 #include "Structures.h"
+#include "Sparse.h"
+
+#include <vector>
+#include <set>
+#include <map>
+
+
 
 int main() {
     Interface menu;
     bool temp = 1;
-    while (temp) {
+    while(temp){
         temp = menu.GetCommand();
     }
 
+
+	/*List<int> List(15);
+	List.addToList(14, 0);
+	List.addToList(3, 1);
+	List.addToList(25, 1);
+	List.addToList(23, 0);
+	List.addToList(11, 3);
+	List.addToList(1, 2);
+	List.print();*/
+
     return 0;
 }
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
